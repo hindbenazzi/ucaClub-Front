@@ -1,0 +1,63 @@
+
+/* FormDemo.css */
+
+.form-demo .card {
+    min-width: 450px;
+}
+.form-demo .card form {
+    margin-top: 2rem;
+    padding: 20px;
+}
+.form-demo .card .p-field {
+    margin-bottom: 1.5rem;
+ 
+}
+
+.p-dropdown.p-component.p-inputwrapper:hover {
+    border: 1px solid #e4b248;
+}
+.p-dropdown.p-component.p-inputwrapper:focus {
+    border: 1px solid #e4b248;
+}
+.fc.fc-theme-standard .fc-view-harness .fc-event.fc-daygrid-block-event {
+    color: #e4b248;
+    background: #e4b248;
+    border-color: #e4b248;
+}
+.fc.fc-theme-standard .fc-toolbar .fc-button{
+    color: #ffffff;
+    background: #e4b248;
+    border: 1px solid #e4b248;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+}
+.fc.fc-theme-standard .fc-toolbar .fc-button:disabled {
+    opacity: 0.6;
+    color: #ffffff;
+    background: #e4b248;
+    border: 1px solid #e4b248;
+}
+
+input.p-inputtext.p-component:hover {
+    border: 1px solid #e4b248;
+}
+input.p-inputtext.p-component:focus {
+    border: 1px solid #e4b248;
+}
+button.p-button.p-component.p-datepicker-trigger.p-button-icon-only {
+    background: #e4b248;
+    border: 1px solid #e4b248;
+}
+@media screen and (max-width: 960px) {
+    .form-demo .card {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 640px) {
+    .form-demo .card {
+        width: 100%;
+        min-width: 0;
+    }
+}
+             
