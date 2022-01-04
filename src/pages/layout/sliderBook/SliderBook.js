@@ -121,7 +121,7 @@ export default function SliderBook(props) {
 						<form  onSubmit={handleSubmit(onSubmit)} id="ajax-reservation-form">
 							<ul className="clearfix">
 							<li className="li-select">
-									<label>CATEGORIE</label>
+									<label className="labelIn">CATEGORIE</label>
 									<select name="type" {...register("type",{required:'Type is required *'})}  style={{width : '100px'}} className="pretty-select">
 										{types.map(type => (
 										<option key={type.id} value={type.id} >{type.label}</option>
@@ -131,18 +131,18 @@ export default function SliderBook(props) {
 
 								</li>
 								<li className="li-input">
-									<label>ARRIVAL</label>
-									<input type="date" min={today}   id="dpd1" {...register("dateDebut",{required:'Date debut is required *'})}  name="dateDebut" className="date-selector" />
+									<label  className="labelIn">ARRIVAL</label>
+									<input  type="date" min={today}   id="dpd1" {...register("dateDebut",{required:'Date debut is required *'})}  name="dateDebut"  />
 									{errors.dateDebut  && <span className='text-warning' style ={{fontSize : '12px'}}>{errors.dateDebut.message}</span>}
 								</li>
 								<li className="li-input">
-									<label>DEPARTURE</label>
-									<input type="date" id="dpd2" min={today} {...register("dateFin",{required:'Date fin is required *'})}  name="dateFin" className="date-selector"/>
+									<label  className="labelIn">DEPARTURE</label>
+									<input type="date" id="dpd2" min={today} {...register("dateFin",{required:'Date fin is required *'})}  name="dateFin" />
 									{errors.dateFin  && <span className='text-warning text-left' style ={{fontSize : '12px'}}>{errors.dateDebut.message}</span>}
 								</li>
 								<li className="li-select">
-									<label>ADULT</label>
-									<select name="adult" {...register("adult")}   className="pretty-select">
+									<label  className="labelIn">ADULT</label>
+									<select  name="adult" {...register("adult")}   className="pretty-select">
 										<option value="1" >1</option>
 										<option value="2">2</option>
 										<option value="3">3</option>
@@ -151,7 +151,7 @@ export default function SliderBook(props) {
 									</select>
 								</li>
 								<li className="li-select">
-									<label>CHILDREN</label>
+									<label  className="labelIn">CHILDREN</label>
 									<select name="children"  {...register("children")}  className="pretty-select">
 									    <option value="0">0</option>
 										<option value="1">1</option>
@@ -163,7 +163,7 @@ export default function SliderBook(props) {
 								</li>
 								<li>
 									<div className="button-style-1 margint26">
-										<input  type="submit" value="RESERVER"/>
+										<input   className="btnReserver" type="submit" value="RESERVER"/>
 									</div>
 								</li>
 							</ul>
