@@ -7,6 +7,7 @@ import Layout from "./Layout";
 // pages
 
 import Login from "../pages/login";
+import LoginClt from "../pages/loginClt/LoginClt";
 import Home from "../pages/home/Home";
 // context
 import { useUserState } from "../context/UserContext";
@@ -23,6 +24,8 @@ export default function App() {
         <Route  path="/home"  component={Home} ></Route>
         <PrivateRoute path="/app" component={Layout} />
         <PublicRoute path="/login" component={Login} />
+        <PublicRoute path="/loginClt" component={LoginClt} />
+
         
       </Switch>
     </BrowserRouter>
