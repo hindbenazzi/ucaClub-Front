@@ -27,6 +27,8 @@ export default function Home() {
 
     return (
         <div>
+			<link rel="stylesheet" href="css/bootstrap.min.css" />
+			<link rel="stylesheet" href="css/main.css" />
             <Header active={'home'}></Header>
             <div className="breadcrumb breadcrumb-1 pos-center">
             <h1> RESERVATION </h1>
