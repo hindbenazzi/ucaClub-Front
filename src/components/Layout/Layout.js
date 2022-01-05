@@ -30,6 +30,7 @@ import LocalAdd from "../../pages/localAdd/LocalAdd";
 import LocalUpdate from "../../pages/localUpdate/LocalUpdate";
 import Types from "../../pages/types/Types";
 import AddTarif from "../../pages/addTarifs/AddTarifs";
+import Reservations from "../../pages/reservations/reservations";
 function Layout(props) {
   var classes = useStyles();
 
@@ -56,7 +57,7 @@ function Layout(props) {
               <Route path="/app/updateUser/:id" component={UserUpdate} />
               <Route path="/app/addUser" component={UserAdd} />
               <Route path="/app/updateLocal/:id" component={LocalUpdate} />
-              
+              <Route path="/app/reservations" component={Reservations} />
              
             </Switch>
             <Box

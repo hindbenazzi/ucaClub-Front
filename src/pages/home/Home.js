@@ -6,8 +6,7 @@ import Footer from '../layout/footer/Footer'
 import SliderBook from './../layout/sliderBook/SliderBook'
 import Parallax from '../layout/parallax/Parallax'
 import shape from '../../images/shape.png'
-import './../../css/bootstrap-3.2.0/dist/css/bootstrap.min.css';
-import './../../css/main.css';
+
 const urlgetAllType = "http://127.0.0.1:8000/types"
 
 export default function Home() {
