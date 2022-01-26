@@ -4,13 +4,12 @@ import { makeStyles } from "@material-ui/styles";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-// components
 import PageTitle from "../../components/PageTitle";
 import { Add } from "@material-ui/icons";
 import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-
-
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 const columns = [
   {
     label: "Id",
@@ -52,26 +51,47 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto'
   }
 }))
-const baseURL = "http://127.0.0.1:8000/locals/";
-const baseURL1 = "http://127.0.0.1:8000/local";
+const baseURL = "http://127.0.0.1:8000/api/locals/";
+const baseURL1 = "http://127.0.0.1:8000/api/local";
 export default function Locals(props) {
+  var userDispatch = useUserDispatch();
   const classes = useStyles();
+  const alert = useAlert();
   const [locals, setLocals] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
   const [openPopup, setOpenPopup] = React.useState(false);
   const [rowData, setRowData]= React.useState([]);
   const fetchData = async () => {
-    await axios.get(baseURL).then((response)=>{
+    const token=localStorage.getItem('id_token');
+    await axios.get(baseURL,{ headers: {"Authorization" :token} }).then((response)=>{
       setLocals(response.data);
       console.log(response.data)
-    })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
+    });
   }
 React.useEffect(() => {
+  
   const fetchData = async () => {
-    await axios.get(baseURL).then((response)=>{
+    const token=localStorage.getItem('id_token');
+    await axios.get(baseURL,{ headers: {"Authorization" :token} }).then((response)=>{
       setLocals(response.data);
       console.log(response.data)
-    })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
+    });
     
 
 }
@@ -98,11 +118,20 @@ const addTarif=()=>{
 }
   
   const deleteItem=async (uId)=>{
+    const token=localStorage.getItem('id_token');
     axios
-  .delete(baseURL1+'/'+uId)
+  .delete(baseURL1+'/'+uId,{ headers: {"Authorization" :token} })
   .then(() => {
     fetchData()
     
+  }).catch( (error)=> {
+    if (error.response) {
+      if(error.response.status==401){
+        alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+        signOut(userDispatch, props.history)
+      }
+     
+    }
   });
 }
 

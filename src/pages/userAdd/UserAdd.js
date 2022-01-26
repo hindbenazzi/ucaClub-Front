@@ -6,7 +6,8 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import TextField from '@material-ui/core/TextField';
 import clsx from 'clsx';
 import axios from "axios";
-
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 import {
   Grid,
   Button,
@@ -39,10 +40,12 @@ const useStyles = makeStyles(theme => ({
     width: "90%"
   }
 }));
-const baseURL = "http://127.0.0.1:8000/user";
+const baseURL = "http://127.0.0.1:8000/api/user";
 const baseURL1 = "http://127.0.0.1:8000/auth/register";
 const UserAdd = (props) => {
+  var userDispatch = useUserDispatch();
   const classes = useStyles();
+  const alert = useAlert();
   const cardStyle={
     width: "100%",
     borderRadius: "3%",
@@ -64,11 +67,20 @@ const UserAdd = (props) => {
     const addUser = async (e) => {
         e.preventDefault()
         const sendData= async ()=>{
-          await axios.post(baseURL1,values).then((response) => {
+          const token=localStorage.getItem('id_token');
+          await axios.post(baseURL1,values,{ headers: {"Authorization" :token} }).then((response) => {
             console.log(response.data)
             props.history.push({
               pathname: "/app/users"
             })
+          }).catch( (error)=> {
+            if (error.response) {
+              if(error.response.status==401){
+                alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+                signOut(userDispatch, props.history)
+              }
+             
+            }
           });
         }
         if(values.password!="" && pass==values.password && values.role=="ROLE_ADMIN"){

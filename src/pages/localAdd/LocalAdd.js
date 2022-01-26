@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import axios from "axios";
 import Select from "@material-ui/core/Select";
 import MenuItem from '@material-ui/core/menuitem';
-
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 import {
   Grid,
   InputLabel,
@@ -37,10 +38,12 @@ const useStyles = makeStyles(theme => ({
     width: "90%"
   }
 }));
-const baseURL = "http://127.0.0.1:8000/local";
-const baseURL1 = "http://127.0.0.1:8000/types/";
+const baseURL = "http://127.0.0.1:8000/api/local";
+const baseURL1 = "http://127.0.0.1:8000/api/types/";
 const LocalAdd = (props) => {
   const classes = useStyles();
+  const alert = useAlert();
+  var userDispatch = useUserDispatch();
   const cardStyle={
     width: "100%",
     borderRadius: "3%",
@@ -48,52 +51,74 @@ const LocalAdd = (props) => {
   }
   const [values, setValues] = React.useState({
     nom: "",
-    description:  "",
+    description: "",
     adresse: "",
-    maxAdulte:"",
-    maxEnfant:"",
-    type: "",
-    typeLabel:""
+    maxAdulte: "",
+    maxEnfant: "",
+    typeLabel: "",
+    type: 0
   });
   const [types, setTypes] = React.useState([]);
 
   
   React.useEffect(() => {
     const fetchData = async () => {
-      
-      await axios.get(baseURL1).then((response)=>{
+      const token=localStorage.getItem('id_token');
+      await axios.get(baseURL1,{ headers: {"Authorization" :token} }).then((response)=>{
         setTypes(response.data);
         
-      })
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
+      });
     }
     fetchData()
     console.log(types)
   }, []);
     const addLocal = async (e) => {
         e.preventDefault()
-        await axios.post(baseURL,values).then((response) => {
+        types.forEach(item=>{
+          if(item.label==values.typeLabel){
+            setValues({ ...values, type: item.type });
+          }
+        }
+          )
+        const token=localStorage.getItem('id_token');
+        await axios.post(baseURL,values,{ headers: {"Authorization" :token} }).then((response) => {
             console.log(response.data)
             props.history.push({
               pathname: "/app/locals"
             })
+          }).catch( (error)=> {
+            if (error.response) {
+              if(error.response.status==401){
+                alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+                signOut(userDispatch, props.history)
+              }
+             
+            }
           });
     }
     
 
-  const handleChange = prop => event => {
-    if(prop == "typeLabel"){
-      console.log("change label")
-        types.forEach(item=>{
-          if(item.label==event.target.value){
-            console.log("right one")
-            setValues({ ...values, "type": item.type });
+    const handleChange = prop => event => {
+      if(prop == "typeLabel"){
+        console.log("change label")
+          types.forEach(item=>{
+            if(item.label==event.target.value){
+              setValues({ ...values, type: item.type });
+            }
           }
-        }
-          )
-    }
-   setValues({ ...values, [prop]: event.target.value});
-    console.log(values)
-  };
+            )
+      }
+      setValues({ ...values, [prop]: event.target.value });
+      
+    };
 
 
   const { action } = useParams();
@@ -234,7 +259,6 @@ const LocalAdd = (props) => {
                   )
                    }
                   </Select>
-
                 </FormControl>
                
             </div>

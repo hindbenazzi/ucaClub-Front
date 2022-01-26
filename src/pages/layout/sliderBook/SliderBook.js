@@ -48,7 +48,7 @@ export default function SliderBook(props) {
 		 const res = 
                 {   
                     membre:{
-                        numAdesion:"hay"
+                        numAdesion:localStorage.getItem('user')
                     }, 
 					type:{
 						id:data.type

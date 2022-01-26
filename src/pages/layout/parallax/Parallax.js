@@ -12,13 +12,12 @@ export default function Parallax() {
 								<div className="flipper">
 									<div className="support-box pos-center front">
 										<div className="support-box-title"><i className="fa fa-phone"></i></div>
-										<h4>CALL US</h4>
-										<p className="margint20">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut ferme fentum</p>
+										<h4>APPELEZ-NOUS</h4>
 									</div>
 									<div className="support-box pos-center back">
 										<div className="support-box-title"><i className="fa fa-phone"></i></div>
-										<h4>PHONE NUMBER</h4>
-										<p className="margint20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, et.<br />+61 3 8376 6284</p>
+										<h4>NUMERO DE TELEPHONE</h4>
+										<p className="margint20"><br />0623-512698</p>
 									</div>
 								</div>
 							</div>
@@ -28,13 +27,12 @@ export default function Parallax() {
 								<div class="flipper">
 									<div className="support-box pos-center front">
 										<div className="support-box-title"><i className="fa fa-envelope"></i></div>
-										<h4>SEND US E-MAIL</h4>
-										<p className="margint20">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut ferme fentum</p>
+										<h4>ENVOYEZ NOUS UN E-MAIL</h4>
 									</div>
 									<div className="support-box pos-center back">
 										<div className="support-box-title"><i className="fa fa-envelope"></i></div>
-										<h4>E-MAIL ADDRESS</h4>
-										<p className="margint20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, et.<br />luxen@2035themes.com</p>
+										<h4>E-MAIL</h4>
+										<p className="margint20"><br />ucacom@uca.com</p>
 									</div>
 								</div>
 							</div>
@@ -44,13 +42,12 @@ export default function Parallax() {
 								<div className="flipper">
 									<div className="support-box pos-center front">
 										<div className="support-box-title"><i className="fa fa-home"></i></div>
-										<h4>VISIT US</h4>
-										<p className="margint20">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut ferme fentum</p>
+										<h4>VISITEZ NOUS</h4>
 									</div>
 									<div className="support-box pos-center back">
 										<div className="support-box-title"><i className="fa fa-home"></i></div>
-										<h4>COMPANY ADDRESS</h4>
-										<p className="margint20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, et.<br />Manhattan square. 124 avenue. Bodrum</p>
+										<h4>NOTRE ADDRESSE</h4>
+										<p className="margint20">149 Rue Ibn Zohair, Marrakech 40000</p>
 									</div>
 								</div>
 							</div>

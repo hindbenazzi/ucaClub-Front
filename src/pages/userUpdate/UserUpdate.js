@@ -6,6 +6,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import DialpadIcon from '@material-ui/icons/Dialpad';
 import clsx from 'clsx';
 import axios from "axios";
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 import {
   Grid,
   InputLabel,
@@ -36,10 +38,13 @@ const useStyles = makeStyles(theme => ({
     width: "90%"
   }
 }));
-const baseURL = "http://127.0.0.1:8000/user";
+const baseURL = "http://127.0.0.1:8000/api/user";
 const UserUpdate = (props) => {
+
   const id = useParams();
+   var userDispatch = useUserDispatch();
   const classes = useStyles();
+  const alert = useAlert();
   const cardStyle = {
     width: "100%",
     borderRadius: "3%",
@@ -56,7 +61,8 @@ const UserUpdate = (props) => {
   React.useEffect(() => {
     console.log(id)
     const fetchData = async () => {
-      await axios.get(baseURL + '/id/' + id.id).then((response) => {
+      const token=localStorage.getItem('id_token');
+      await axios.get(baseURL + '/id/' + id.id,{ headers: {"Authorization" :token} }).then((response) => {
         setValues({
           firstName: response.data.firstName,
           lastName: response.data.lastName,
@@ -66,7 +72,15 @@ const UserUpdate = (props) => {
           role: response.data.roles[1]!=null ?response.data.roles[1]: response.data.roles[0]
         })
 
-      })
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
+      });
 
     }
     fetchData()
@@ -75,11 +89,20 @@ const UserUpdate = (props) => {
 
   const updateUser = async (e) => {
     e.preventDefault()
-    await axios.put(baseURL + '/' + id.id, values).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.put(baseURL + '/' + id.id, values,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       props.history.push({
         pathname: "/app/users"
       })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
     });
   }
 

@@ -3,8 +3,10 @@ import logo from'./../../../images/logoFST.png';
 import {Link , Router} from "react-router-dom";
 import img from  './../../../images/default-user-icon-.jpg'
 import logout from  './../../../images/logout.png'
+import { useUserDispatch, signOutClient } from "../../../context/UserContext";
 
 export default function Header(props) {
+	var userDispatch = useUserDispatch();
 	let active = props.active;
 	/*function menuToggle(){
 		const toggleMenu = document.querySelector('.menu');
@@ -27,15 +29,14 @@ export default function Header(props) {
 									
 									<li  className={active == 'home' ? 'active' : ''}><Link to={{ pathname: "/home" }} >ACCUEIL</Link>
 									</li>
-									<li ><a href="#" className= {active == 'about' ? 'active' : ''}>A PROPOS</a>
+									<li  href="#" className= {active == 'userSpace' ? 'active' : ''}><Link to={{ pathname: "/userSpace" }} >MES RESERVATIONS</Link>
 									</li>
 								
-									<li><a href="contact.html">CONTACT</a></li>
 								
 									<div className="dropdown">
 									<img src={img}  style={{width : '40px', height:'40px', marginBottom :'10px'}} />
 									<div className="dropdown-content">
-									<a href="#"><img src={logout} style={{width : '19px', height:'19px' ,marginRight:'6px'}}/> Déconnecter</a>							
+									<a  onClick={() => signOutClient(userDispatch, props.history)}><img src={logout} style={{cursor:"pointer", float:"left", width : '19px', height:'19px' ,marginRight:'6px'}}/> Déconnecter</a>							
 									</div>
 									</div>
 									

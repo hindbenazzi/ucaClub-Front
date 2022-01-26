@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import Select from "@material-ui/core/Select";
 import MenuItem from '@material-ui/core/menuitem'
-
+import { useAlert } from "react-alert";
 import clsx from 'clsx';
 import axios from "axios";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 import {
   Grid,
   InputLabel,
@@ -36,9 +37,11 @@ const useStyles = makeStyles(theme => ({
     width: "90%"
   }
 }));
-const baseURL = "http://127.0.0.1:8000/local";
-const baseURL1 = "http://127.0.0.1:8000/types/";
+const baseURL = "http://127.0.0.1:8000/api/local";
+const baseURL1 = "http://127.0.0.1:8000/api/types/"; 
 const LocalUpdate = (props) => {
+  var userDispatch = useUserDispatch();
+  const alert = useAlert();
   const id = useParams();
   const classes = useStyles();
   const cardStyle = {
@@ -60,7 +63,8 @@ const LocalUpdate = (props) => {
     console.log("id")
     console.log(id)
     const fetchData = async () => {
-      await axios.get(baseURL + '/id/' + id.id).then((response) => {
+      const token=localStorage.getItem('id_token');
+      await axios.get(baseURL + '/id/' + id.id,{ headers: {"Authorization" :token} }).then((response) => {
         setValues({
           nom: response.data[0].nom,
           description: response.data[0].description,
@@ -71,22 +75,47 @@ const LocalUpdate = (props) => {
           type: response.data[0].type.type
         })
         
-      })
-      await axios.get(baseURL1).then((response)=>{
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
+      });
+      await axios.get(baseURL1,{ headers: {"Authorization" :token} }).then((response)=>{
         setTypes(response.data);
         
-      })
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
+      });
     }
     fetchData()
     console.log(types)
   }, []);
   const updateLocal = async (e) => {
     e.preventDefault()
-    await axios.put(baseURL + '/' + id.id, values).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.put(baseURL + '/' + id.id, values,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       props.history.push({
         pathname: "/app/locals"
       })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
     });
   }
   const handleChange = prop => event => {

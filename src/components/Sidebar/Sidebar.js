@@ -19,6 +19,7 @@ import { withRouter } from "react-router-dom";
 import classNames from "classnames";
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import EventIcon from '@material-ui/icons/Event';
 // styles
 import useStyles from "./styles";
 
@@ -39,6 +40,7 @@ const structure = [
   { id: 2, label: " Utilisateur", link: "/app/users", icon: <SupervisorAccountIcon /> },
   { id: 3, label: "Locaux", link: "/app/locals", icon: <HomeIcon /> },
   { id: 4, label: "Types", link: "/app/types", icon: <StyleIcon />  },
+  { id: 5, label: "Reservations", link: "/app/reservations", icon: <EventIcon />  },
 ];
 
 function Sidebar({ location }) {

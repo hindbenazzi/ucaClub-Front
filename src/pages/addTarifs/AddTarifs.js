@@ -19,7 +19,8 @@ import { useParams } from 'react-router-dom';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import TextField from '@material-ui/core/TextField';
-
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 const styles = {
   Icon: {
     marginLeft: "auto"
@@ -48,12 +49,14 @@ const useStyles = makeStyles(theme => ({
     width: "90%"
   }
 }));
-const baseURL = "http://127.0.0.1:8000/local/tarif/";
-const baseURL1 = "http://127.0.0.1:8000/tarif/local/";
-const baseURL2 = "http://127.0.0.1:8000/tarif/id/";
+const baseURL = "http://127.0.0.1:8000/api/local/tarif/";
+const baseURL1 = "http://127.0.0.1:8000/api/tarif/local/";
+const baseURL2 = "http://127.0.0.1:8000/api/tarif/id/";
 const AddTarif = (props) => {
   const id = useParams();
+  var userDispatch = useUserDispatch();
   const classes = useStyles();
+  const alert = useAlert();
   const gridClass = "fade-out";
   const cardStyle = {
     width: "95%",
@@ -68,15 +71,25 @@ const AddTarif = (props) => {
   });
   const [formState, setFormState] = React.useState("add")
   const fetchData = async () => {
-    await axios.get(baseURL1 + id.id, values).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.get(baseURL1 + id.id, values,{ headers: {"Authorization" :token} }).then((response) => {
       setTarifs(response.data);
       console.log(response.data)
-    })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
+    });
   }
   const [tarifs, setTarifs] = React.useState([]);
   const addTarifs = async (e) => {
     e.preventDefault()
-    await axios.put(baseURL + id.id, values).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.put(baseURL + id.id,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       setTarifs([...tarifs, values]);
       console.log(tarifs)
@@ -86,6 +99,14 @@ const AddTarif = (props) => {
         nbrAdulte: "",
         prix: ""
       })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
     });
 
   }
@@ -106,7 +127,8 @@ const AddTarif = (props) => {
   const tarifsUpdate=async (e)=>{
     console.log("updating......")
     e.preventDefault()
-    await axios.put(baseURL2 + tarifId, values).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.put(baseURL2 + tarifId, values,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       setTarifs([...tarifs, values]);
       console.log(tarifs)
@@ -116,14 +138,31 @@ const AddTarif = (props) => {
         nbrAdulte: "",
         prix: ""
       })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
     });
   }
   React.useEffect(() => {
     const fetchData = async () => {
-      await axios.get(baseURL1 + id.id, values).then((response) => {
+      const token=localStorage.getItem('id_token');
+      await axios.get(baseURL1 + id.id, { headers: {"Authorization" :token} }).then((response) => {
         setTarifs(response.data);
         console.log(response.data)
-      })
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
+      });
     }
     fetchData()
 
@@ -139,9 +178,18 @@ const AddTarif = (props) => {
       nbrAdulte: "",
       prix: ""
     })
-    await axios.delete(baseURL2 + tarifId).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.delete(baseURL2 + tarifId,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       fetchData()
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
     });
   }
   const listTarifs = tarifs.map((item) => {
