@@ -45,7 +45,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, signOut ,loginClient, signOutClient };
 
 // ###########################################################
 
@@ -56,12 +56,32 @@ function loginUser(jwt,dispatch, login, password, history, setIsLoading, setErro
   if (!!login && !!password) {
     setTimeout(() => {
       localStorage.setItem('id_token',jwt)
+      localStorage.setItem('role',"admin")
+      localStorage.setItem('user',login)
       setError(null)
       setIsLoading(false)
       dispatch({ type: 'LOGIN_SUCCESS' })
-
       history.push('/app/users')
     }, 2000);
+  } else {
+    dispatch({ type: "LOGIN_FAILURE" });
+    setError(true);
+    setIsLoading(false);
+  }
+}
+function loginClient(jwt,dispatch, adesion, history, setIsLoading, setError) {
+  setError(false);
+  setIsLoading(true);
+  if (!!adesion) {
+    setTimeout(() => {
+      localStorage.setItem('id_token',jwt)
+      localStorage.setItem('role',"user")
+      localStorage.setItem('user',adesion)
+      setError(null)
+      setIsLoading(false)
+      dispatch({ type: 'LOGIN_SUCCESS' })
+      history.push('/home')
+    }, 1000);
   } else {
     dispatch({ type: "LOGIN_FAILURE" });
     setError(true);
@@ -71,6 +91,14 @@ function loginUser(jwt,dispatch, login, password, history, setIsLoading, setErro
 
 function signOut(dispatch, history) {
   localStorage.removeItem("id_token");
+  localStorage.removeItem("role");
+  dispatch({ type: "SIGN_OUT_SUCCESS" });
+  history.push("/loginAdmin");
+}
+function signOutClient(dispatch,history) {
+  console.log(history)
+  localStorage.removeItem("id_token");
+  localStorage.removeItem("role");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }

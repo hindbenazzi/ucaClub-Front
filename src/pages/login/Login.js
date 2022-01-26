@@ -16,7 +16,6 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import axios from "axios";
 import classnames from "classnames";
-
 import EmailIcon from '@material-ui/icons/Email';
 import { makeStyles } from '@material-ui/core/styles';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -162,13 +161,7 @@ function Login(props) {
                     Login
                   </Button>
                 )}
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.forgetButton}
-                >
-                  Forget Password
-                </Button>
+                
               </div>
             </React.Fragment>
           

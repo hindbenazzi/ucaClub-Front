@@ -1,0 +1,46 @@
+body { text-align:center; vertical-align:center;font-family:Arial,Verdana;}
+
+.contaner .card {
+  padding:20px;margin:10px;border-radius:2px;
+  background-color:#FFFFFF; color:#777777;
+  animation-name: surface-in; animation-duration: .3s;animation-fill-mode:both;
+  transform: translateZ(0);/*force GPU render*/
+  transition:transform .1s;transform-origin:center bottom;
+  font-size: 17px;
+}
+
+.contaner .card:nth-child(1) {animation-delay: .1s;}
+.contaner .card:nth-child(2) {animation-delay: .2s;}
+.contaner .card:nth-child(3) {animation-delay: .3s;}
+.contaner .card:nth-child(4) {animation-delay: .4s;}
+.contaner .card:nth-child(5) {animation-delay: .5s;}
+
+@keyframes surface-in {
+  /*keep position relative here for smooth transition*/
+    0% {opacity:0;transform:scaleY(1);position:relative;top:10px;}
+    100% {opactiy:1;transform:scaleY(1);position:relative;top:0px;}
+}
+
+.contaner .card:hover {
+  box-shadow:rgba(0, 0, 0, 0.25) 0px 7px 14px, rgba(0, 0, 0, 0.22) 0px 5px 5px;
+  transform:scale(1.01);
+  
+}
+
+
+.surface-shadow-1 {
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px;
+}
+.surface-shadow-2 {
+  box-shadow:
+rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px, rgba(0, 0, 0, 0.3) 0px 2px 4px -1px
+}
+.badge-success{
+  background-color: #28A745;
+}
+.badge-danger{
+  background-color: #DC3545;
+}
+.badge-warning{
+  background-color: #FFC107;
+}

@@ -11,6 +11,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import LabelIcon from '@material-ui/icons/Label';
 import StyleIcon from '@material-ui/icons/Style';
+import { useAlert } from "react-alert";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 import {
     InputLabel,
     InputAdornment,
@@ -62,10 +64,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const baseURL = "http://127.0.0.1:8000/types/";
-const baseURL1 = "http://127.0.0.1:8000/type";
+const baseURL = "http://127.0.0.1:8000/api/types/";
+const baseURL1 = "http://127.0.0.1:8000/api/type";
 export default function Types(props) {
+  var userDispatch = useUserDispatch();
   const classes = useStyles();
+  const alert = useAlert();
   const [types, setTypes] = React.useState([]);
   const [label, setLabel] = React.useState("");
   const [type, setType] = React.useState("");
@@ -75,17 +79,35 @@ export default function Types(props) {
   const [openPopup, setOpenPopup] = React.useState(false);
   
   const fetchData = async () => {
-    await axios.get(baseURL).then((response)=>{
+    const token=localStorage.getItem('id_token');
+    await axios.get(baseURL,{ headers: {"Authorization" :token} }).then((response)=>{
       setTypes(response.data);
       console.log(response.data)
-    })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
+    });
   }
 React.useEffect(() => {
   const fetchData = async () => {
-    await axios.get(baseURL).then((response)=>{
+    const token=localStorage.getItem('id_token');
+    await axios.get(baseURL,{ headers: {"Authorization" :token} }).then((response)=>{
       setTypes(response.data);
       console.log(response.data)
-    })
+    }).catch( (error)=> {
+      if (error.response) {
+        if(error.response.status==401){
+          alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+          signOut(userDispatch, props.history)
+        }
+       
+      }
+    });
 }
 fetchData()
  
@@ -110,11 +132,20 @@ const handleChange = prop => event => {
      setOpenPopup(true)
   }
   const deleteItem=async (uId)=>{
+    const token=localStorage.getItem('id_token');
     axios
-  .delete(baseURL1+'/'+uId)
+  .delete(baseURL1+'/'+uId,{ headers: {"Authorization" :token} })
   .then(() => {
     fetchData()
     
+  }).catch( (error)=> {
+    if (error.response) {
+      if(error.response.status==401){
+        alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+        signOut(userDispatch, props.history)
+      }
+     
+    }
   });
 }
   const onRowSelectionChange = (curRowSelected, allRowsSelected) => {
@@ -127,11 +158,20 @@ const handleChange = prop => event => {
   }
   const updateType = async (e) => {
     e.preventDefault()
-    await axios.put(baseURL1+'/'+id,{label:label,type:type}).then((response) => {
+    const token=localStorage.getItem('id_token');
+    await axios.put(baseURL1+'/'+id,{label:label,type:type},{ headers: {"Authorization" :token} }).then((response) => {
         console.log(response.data)
         setOpenPopup(false)
         fetchData()
         setLabel("")
+      }).catch( (error)=> {
+        if (error.response) {
+          if(error.response.status==401){
+            alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+            signOut(userDispatch, props.history)
+          }
+         
+        }
       });
 }
   const onRowsDelete= (rowsDeleted, newData) => {
@@ -151,11 +191,20 @@ const handleChange = prop => event => {
 	};
     const addType = async (e) => {
         e.preventDefault()
-        await axios.post(baseURL1,{label:label,type:type}).then((response) => {
+        const token=localStorage.getItem('id_token');
+        await axios.post(baseURL1,{label:label,type:type},{ headers: {"Authorization" :token} }).then((response) => {
             console.log(response.data)
             setOpenPopup(false)
             fetchData()
             setLabel("")
+          }).catch( (error)=> {
+            if (error.response) {
+              if(error.response.status==401){
+                alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
+                signOut(userDispatch, props.history)
+              }
+             
+            }
           });
     }
  
