@@ -40,7 +40,8 @@ const structure = [
   { id: 2, label: " Utilisateur", link: "/app/users", icon: <SupervisorAccountIcon /> },
   { id: 3, label: "Locaux", link: "/app/locals", icon: <HomeIcon /> },
   { id: 4, label: "Types", link: "/app/types", icon: <StyleIcon />  },
-  { id: 5, label: "Reservations", link: "/app/reservations", icon: <EventIcon />  },
+  { id: 5, label: "Reservations Chambres", link: "/app/reservationsChambre", icon: <EventIcon />  },
+  { id: 6, label: "Reservations Bangalows", link: "/app/reservationsBangalow", icon: <EventIcon />  },
 ];
 
 function Sidebar({ location }) {

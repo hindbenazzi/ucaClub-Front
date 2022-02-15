@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Reservations(props) {
+export default function ReservationsBangalow(props) {
 
  
   const toTimestamp=(timeStamp_value)=>{
@@ -53,7 +53,7 @@ export default function Reservations(props) {
   const [calendarEvents, setCalendarEvents] = React.useState([]);
   const [calendarPassedEvents, setCalendarPassedEvents] = React.useState([]);
   const fetchData = async () => {
-    await axios.get(baseURL+0+'/type/chambre').then((response)=>{
+    await axios.get(baseURL+0+'/type/Bangalow').then((response)=>{
      
     const events=response.data.map((item)=>{
       if(item.resesrvationDetails.length!=0){ 
@@ -68,7 +68,7 @@ export default function Reservations(props) {
       })
       setCalendarEvents(events)
     })
-    await axios.get(baseURL+1+'/type/chambre').then((response)=>{
+    await axios.get(baseURL+1+'/type/Bangalow').then((response)=>{
      
       const passEvents=response.data.map((item)=>{
         if(item.resesrvationDetails.length!=0){ 
@@ -83,7 +83,6 @@ export default function Reservations(props) {
         })
         setCalendarPassedEvents(passEvents)
       })
-    
 
 }
  
@@ -92,11 +91,11 @@ export default function Reservations(props) {
 
 React.useEffect(() => {
   const fetchData = async () => {
-    await axios.get(baseURL+0+'/type/chambre').then((response)=>{
+    await axios.get(baseURL+0).then((response)=>{
      
     const events=response.data.map((item)=>{
       if(item.resesrvationDetails.length!=0){ 
-        console.log(toTimestamp(item.resesrvationDetails[0].dateDebut))
+       // console.log(toTimestamp(item.resesrvationDetails[0].dateDebut))
        return {
           title: "Reservation",
           id:item.id,
@@ -106,9 +105,8 @@ React.useEffect(() => {
       } 
       })
       setCalendarEvents(events)
-      
     })
-    await axios.get(baseURL+1+'/type/chambre').then((response)=>{
+    await axios.get(baseURL+1+'/type/Bangalow').then((response)=>{
      
       const passEvents=response.data.map((item)=>{
         if(item.resesrvationDetails.length!=0){ 
@@ -122,7 +120,6 @@ React.useEffect(() => {
         } 
         })
         setCalendarPassedEvents(passEvents)
-        
       })
     
 
@@ -134,11 +131,10 @@ fetchData()
 
   return (
     <>
-     <PageTitle title="Liste des Réservation En Attente" />
-     <Calendar localType={'chambre'} events={calendarEvents} accept={accept} deny={deny} />
-     <PageTitle title="Liste des Réservation Accepté" />
-     <Calendar localType={'chambre'} events={calendarPassedEvents} accept={accept} deny={deny} />
-
+    <PageTitle title="Liste des Réservation En Attente" />
+    <Calendar localType={'bangalow'} events={calendarEvents} accept={accept} deny={deny} />
+    <PageTitle title="Liste des Réservation Accepté" />
+     <Calendar localType={'bangalow'} events={calendarPassedEvents} accept={accept} deny={deny} />
     </>
   );
 }
