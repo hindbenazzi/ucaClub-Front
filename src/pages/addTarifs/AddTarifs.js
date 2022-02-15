@@ -72,14 +72,15 @@ const AddTarif = (props) => {
   const [formState, setFormState] = React.useState("add")
   const fetchData = async () => {
     const token=localStorage.getItem('id_token');
-    await axios.get(baseURL1 + id.id, values,{ headers: {"Authorization" :token} }).then((response) => {
+    console.log(token)
+    await axios.get(baseURL1 + id.id, { headers: {"Authorization" :token} }).then((response) => {
       setTarifs(response.data);
       console.log(response.data)
     }).catch( (error)=> {
       if (error.response) {
         if(error.response.status==401){
           alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
-          signOut(userDispatch, props.history)
+         // signOut(userDispatch, props.history)
         }
        
       }
@@ -89,7 +90,8 @@ const AddTarif = (props) => {
   const addTarifs = async (e) => {
     e.preventDefault()
     const token=localStorage.getItem('id_token');
-    await axios.put(baseURL + id.id,{ headers: {"Authorization" :token} }).then((response) => {
+    console.log("token: "+token)
+    await axios.put(baseURL + id.id,values,{ headers: {"Authorization" :token} }).then((response) => {
       console.log(response.data)
       setTarifs([...tarifs, values]);
       console.log(tarifs)
@@ -103,7 +105,7 @@ const AddTarif = (props) => {
       if (error.response) {
         if(error.response.status==401){
           alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
-          signOut(userDispatch, props.history)
+         // signOut(userDispatch, props.history)
         }
        
       }
@@ -142,7 +144,7 @@ const AddTarif = (props) => {
       if (error.response) {
         if(error.response.status==401){
           alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
-          signOut(userDispatch, props.history)
+         // signOut(userDispatch, props.history)
         }
        
       }
@@ -151,6 +153,7 @@ const AddTarif = (props) => {
   React.useEffect(() => {
     const fetchData = async () => {
       const token=localStorage.getItem('id_token');
+      console.log(token)
       await axios.get(baseURL1 + id.id, { headers: {"Authorization" :token} }).then((response) => {
         setTarifs(response.data);
         console.log(response.data)
@@ -158,7 +161,7 @@ const AddTarif = (props) => {
         if (error.response) {
           if(error.response.status==401){
             alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
-            signOut(userDispatch, props.history)
+           // signOut(userDispatch, props.history)
           }
          
         }
@@ -186,7 +189,7 @@ const AddTarif = (props) => {
       if (error.response) {
         if(error.response.status==401){
           alert.error("Votre session a expiré! reconnectez vous s'il vous plais");
-          signOut(userDispatch, props.history)
+          //signOut(userDispatch, props.history)
         }
        
       }
